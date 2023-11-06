@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-const AddTask = () => {
+const AddTask = ({ tasks, setTasks }) => {
   const [task, setTask] = useState("");
   const inputRef = useRef(null);
 
@@ -21,6 +21,8 @@ const AddTask = () => {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
+    const data = await res.json();
+    setTasks([...tasks, data]);
   };
   return (
     <form onSubmit={submitHandler}>

@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <TasksContext.Provider value={tasks}>
-      <AddTask />
+      <AddTask tasks={tasks} setTasks={setTasks} />
       <TaskList />
     </TasksContext.Provider>
   );
