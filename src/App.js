@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext, useEffect, useState } from "react";
+import AddTask from "./components/AddTask";
+import TaskList from "./components/TaskList";
 
-function App() {
+export const TasksContext = createContext();
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("https://zigzag-wary-creek.glitch.me/tasks");
+        if (!res.ok) throw new Error("Something went wrong");
+        const data = await res.json();
+        setTasks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TasksContext.Provider value={tasks}>
+      <AddTask />
+      <TaskList />
+    </TasksContext.Provider>
   );
-}
+};
 
 export default App;
